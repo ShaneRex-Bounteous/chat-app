@@ -38,15 +38,14 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'users',
     hooks: {
       async beforeCreate(user) {
-        if(validateRegisterInput(user.username, user.email, user.password)) {
+        const {valid, message, field} = validateRegisterInput(user.username, user.email, user.password)
+        if(valid) {
           user.password = await hashPassword(user.password)
         } else {
-          throw new GraphQLError("Invalid credentials", {
+          throw new GraphQLError(message, {
             extensions: {
-              code: ApolloServerErrorCode.BAD_REQUEST,
-              http: {
-                status: 400
-              }
+              fieldName: field,
+              code: ApolloServerErrorCode.BAD_USER_INPUT
             }
           })
         }

@@ -22,8 +22,7 @@ module.exports = `
     input RegisterUserInput{
         username: String!,
         email: String!,
-        password: String!,
-        confirmPassword: String!
+        password: String!
     }
 
     input LoginUserInput {

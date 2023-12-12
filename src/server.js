@@ -48,7 +48,7 @@ const PORT = process.env.PORT || 4000;
 
     const server = new ApolloServer({
         typeDefs,
-        resolvers
+        resolvers,
     });
     await server.start()
 
