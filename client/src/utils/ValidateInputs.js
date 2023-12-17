@@ -28,4 +28,30 @@ export const registerValidation = ({username, password, email, confirmPassword})
     }
 
     return errors
-} 
+}
+
+export const loginValidation = ({username, password}) => {
+    let errors = {}
+    username = username.trim()
+    password = password.trim()
+
+    if(validator.isEmpty(username) || !validator.isLength(username, {
+        min: 6,
+        max: 20
+    })) {
+        errors.usernameErrors = 'Username must be between 6 to 20 characters'
+    }
+
+    if(errors.usernameErrors && validator.isEmail(username)) {
+        errors.usernameErrors = ''
+    }
+
+    if(validator.isEmpty(password) || !validator.isLength(password, {
+        min: 6,
+        max: 16
+    })) {
+        errors.passwordErrors = 'Password must be between 6 to 16 characters'
+    }
+
+    return errors
+}

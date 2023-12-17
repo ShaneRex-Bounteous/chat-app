@@ -93,10 +93,10 @@ const Register = () => {
                     <Typography variant="body1" textAlign={"center"}>
                         Create your account
                     </Typography>
-                    <TextField type="email" variant="outlined" label="Email" required value={formValues.email} error={errors.email} helperText={errors.email && <span>{errors.email}</span>} onChange={(event) => setFormValues({ ...formValues, email: event.target.value })} />
-                    <TextField type="text" variant="outlined" label="Username" required value={formValues.username} error={errors.username} helperText={errors.username && <span>{errors.username}</span>} onChange={(event) => setFormValues({ ...formValues, username: event.target.value })} />
-                    <TextField type="password" variant="outlined" label="Password" required value={formValues.password} error={errors.password} helperText={errors.password && <span>{errors.password}</span>} onChange={(event) => setFormValues({ ...formValues, password: event.target.value })} />
-                    <TextField type="password" variant="outlined" label="Confirm Password" required value={formValues.confirmPassword} error={errors.confirmPassword} helperText={errors.confirmPassword && <span>{errors.confirmPassword}</span>} onChange={(event) => setFormValues({ ...formValues, confirmPassword: event.target.value })} />
+                    <TextField type="email" variant="outlined" label="Email" required value={formValues.email} error={errors.email} helperText={errors.email} onChange={(event) => setFormValues({ ...formValues, email: event.target.value })} fullWidth/>
+                    <TextField type="text" variant="outlined" label="Username" required value={formValues.username} error={errors.username} helperText={errors.username} onChange={(event) => setFormValues({ ...formValues, username: event.target.value })} fullWidth/>
+                    <TextField type="password" variant="outlined" label="Password" required value={formValues.password} error={errors.password} helperText={errors.password} onChange={(event) => setFormValues({ ...formValues, password: event.target.value })} fullWidth/>
+                    <TextField type="password" variant="outlined" label="Confirm Password" required value={formValues.confirmPassword} error={errors.confirmPassword} helperText={errors.confirmPassword} onChange={(event) => setFormValues({ ...formValues, confirmPassword: event.target.value })} fullWidth/>
                     <Button type="submit" variant="contained" disabled={loading} fullWidth>{loading ? 'Loading...' : 'Register'}</Button>
                 </Stack>
             </form>

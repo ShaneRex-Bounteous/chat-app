@@ -8,3 +8,12 @@ export const REGISTER_USER = gql`
         }
     }
 `;
+
+export const LOGIN_USER = gql`
+    mutation Login($userInput: LoginUserInput!) {
+        login(userInput: $userInput) {
+            accessToken
+            refreshToken
+        }
+    }
+`;
