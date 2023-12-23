@@ -7,7 +7,6 @@ const { ApolloServerErrorCode } = require('@apollo/server/errors')
 
 module.exports = {
     async register(parent, args, { models }, info) {
-        let errors = {}
         try {
             const { username, email, password } = args.userInput
             // const userExisting = await models.User.findOne({
@@ -38,14 +37,14 @@ module.exports = {
                         fieldName: error.errors[0].path
                     }
                 })
-            } 
+            }
             throw new GraphQLError(error.message, {
                 extensions: {
                     fieldName: error.extensions.fieldName || undefined,
                     code: error.extensions.code || ApolloServerErrorCode.INTERNAL_SERVER_ERROR
                 }
             })
-            
+
         }
     },
     async login(parent, args, { models }, info) {
@@ -62,13 +61,23 @@ module.exports = {
             })
 
             if (!userExisting) {
-                throw new Error('Invalid username/email')
+                throw new GraphQLError('Invalid username/email', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        fieldName: 'username'
+                    }
+                })
             }
 
             const isPasswordMatch = await verifyPassword(password, userExisting.password)
 
             if (!isPasswordMatch) {
-                throw new Error('Incorrect password')
+                throw new GraphQLError('Incorrect Password', {
+                    extensions: {
+                        code: ApolloServerErrorCode.BAD_USER_INPUT,
+                        fieldName: 'password'
+                    }
+                })
             }
 
             const { accessToken, refreshToken } = await createTokens({
@@ -80,9 +89,8 @@ module.exports = {
         } catch (error) {
             throw new GraphQLError(error.message, {
                 extensions: {
-                    http: {
-                        status: 400
-                    }
+                    code: error.extensions.code || ApolloServerErrorCode.INTERNAL_SERVER_ERROR,
+                    fieldName: error.extensions.fieldName || undefined
                 }
             })
         }
@@ -101,9 +109,6 @@ module.exports = {
             throw new GraphQLError("Login expired", {
                 extensions: {
                     code: 'UNAUTHORIZED',
-                    http: {
-                        status: 401
-                    }
                 }
             })
         }
