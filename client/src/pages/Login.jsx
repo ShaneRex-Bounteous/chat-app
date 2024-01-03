@@ -39,10 +39,6 @@ const Login = () => {
                         variant: "error"
                     })
                 }
-            } else if(err.networkError) {
-                enqueueSnackbar(err.message, {
-                    variant: 'error'
-                })
             }
         },
         onCompleted(data) {

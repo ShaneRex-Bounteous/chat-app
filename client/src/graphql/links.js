@@ -2,6 +2,7 @@ import { createHttpLink, fromPromise } from '@apollo/client';
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { refreshAccessToken } from './client';
+import { enqueueSnackbar } from 'notistack';
 
 export const httpLink = createHttpLink({
     uri: 'http://localhost:4000/',
@@ -64,6 +65,11 @@ export const errorLink = onError(({ graphQLErrors, networkError, operation, forw
                 }
             }
         }
+    }
+    if(networkError) {
+        enqueueSnackbar("Something went wrong. Please try again!", {
+            variant: 'error'
+        })
     }
 
     // Return an observable that simply continues the operation

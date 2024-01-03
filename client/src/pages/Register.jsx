@@ -37,11 +37,7 @@ const Register = () => {
                         variant: 'error'
                     })
                 }
-            } else if (err.networkError) {
-                enqueueSnackbar(err.message, {
-                    variant: 'error'
-                })
-            }
+            } 
         },
         onCompleted() {
             setErrors({
