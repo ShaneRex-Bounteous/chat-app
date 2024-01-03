@@ -43,7 +43,7 @@ const Register = () => {
                 })
             }
         },
-        onCompleted(data) {
+        onCompleted() {
             setErrors({
                 email: '',
                 username: '',
@@ -70,12 +70,12 @@ const Register = () => {
         password: '',
         confirmPassword: '',
     })
-    const handleFormSubmit = async (event) => {
+    const handleFormSubmit = (event) => {
         event.preventDefault()
 
         const validationErrors = registerValidation({ username: formValues.username, email: formValues.email, password: formValues.password, confirmPassword: formValues.confirmPassword })
         if (Object.keys(validationErrors).length <= 0) {
-            await register({
+            register({
                 variables: {
                     userInput: {
                         username: formValues.username,

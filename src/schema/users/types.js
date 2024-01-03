@@ -16,7 +16,7 @@ module.exports = `
     type Mutation {
         register(userInput: RegisterUserInput!): User!
         login(userInput: LoginUserInput!): AuthPayload!
-        refresh(refreshToken: String!): AuthPayload!
+        refresh: String!
     }
 
     input RegisterUserInput{

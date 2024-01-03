@@ -55,10 +55,10 @@ const Login = () => {
                 username: '',
                 password: ''
             })
-            localStorage.setItem('access_token', {
+            localStorage.setItem('access_token', JSON.stringify({
                 token: data.login.accessToken,
                 expiry: new Date().setMinutes(new Date().getMinutes() + 15)
-            })
+            }))
             enqueueSnackbar('Login Successful', {
                 variant: 'success'
             })

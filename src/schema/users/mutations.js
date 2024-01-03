@@ -44,10 +44,9 @@ module.exports = {
                     code: error.extensions.code || ApolloServerErrorCode.INTERNAL_SERVER_ERROR
                 }
             })
-
         }
     },
-    async login(parent, args, { models }, info) {
+    async login(parent, args, { models, res }, info) {
         try {
             const { username, password } = args.userInput
 
@@ -85,6 +84,12 @@ module.exports = {
                 email: userExisting.email
             })
 
+            res.cookie('refresh_token', refreshToken, {
+                maxAge: 604800000,
+                secure: process.env.NODE_ENV === 'production',
+                httpOnly: true
+            })
+
             return { accessToken, refreshToken }
         } catch (error) {
             throw new GraphQLError(error.message, {
@@ -95,20 +100,23 @@ module.exports = {
             })
         }
     },
-    async refresh(parent, { refreshToken }, ctx, info) {
+    async refresh(parent, args, { req }, info) {
         try {
-            const user = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY)
+            if(!req.cookies.refresh_token) {
+                throw new Error("Refresh Token not found")
+            }
+            const user = jwt.verify(req.cookies.refresh_token, process.env.REFRESH_SECRET_KEY)
 
 
             const newAccessToken = jwt.sign({ id: user.id }, process.env.ACCESS_SECRET_KEY, {
                 expiresIn: '15m'
             })
 
-            return Promise.resolve({ accessToken: newAccessToken, refreshToken })
+            return Promise.resolve(newAccessToken)
         } catch (error) {
             throw new GraphQLError("Login expired", {
                 extensions: {
-                    code: 'UNAUTHORIZED',
+                    code: 'UNAUTHENTICATED'
                 }
             })
         }

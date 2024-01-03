@@ -4,7 +4,7 @@ require('dotenv').config()
 const { sequelize } = require('../models')
 const models = require('../models')
 const { typeDefs, resolvers } = require('./schema/index')
-
+const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
@@ -54,9 +54,17 @@ const PORT = process.env.PORT || 4000;
 
     await sequelize.authenticate()
 
-    app.use('/', bodyParser.json(), cors(), expressMiddleware(server, {
+    app.use(cors({
+        origin: 'http://localhost:3000',
+        credentials: true
+    }))
+
+    app.use(cookieParser())
+
+    app.use('/', bodyParser.json(), expressMiddleware(server, {
         context: context
     }))
+
 
     app.listen(PORT, () => {
         console.log(`Server up at port: http://localhost:${PORT}/`);

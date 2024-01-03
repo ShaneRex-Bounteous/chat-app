@@ -9,13 +9,22 @@ const verifyAccessToken = async (token) => {
     } catch (error) {
         throw new GraphQLError("Invalid access token", {
             extensions: {
-                code: "FORBIDDEN",
-                http: {
-                    status: 403
-                }
+                code: "FORBIDDEN"
             }
         })
     }
+
+    // jwt.verify(token, process.env.ACCESS_SECRET_KEY, (error, decoded) => {
+    //     if(error) {
+    //         throw new GraphQLError("Invalid access token", {
+    //             extensions: {
+    //                 code: "FORBIDDEN"
+    //             }
+    //         })
+    //     }
+
+    //     return decoded
+    // })
 }
 
 const createTokens = async (payload) => {

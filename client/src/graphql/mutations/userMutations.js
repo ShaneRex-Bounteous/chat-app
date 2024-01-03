@@ -17,3 +17,9 @@ export const LOGIN_USER = gql`
         }
     }
 `;
+
+export const REFRESH = gql`
+    mutation Refresh{
+        refresh 
+    }
+`;
