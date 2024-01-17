@@ -81,16 +81,16 @@ module.exports = {
 
             const { accessToken, refreshToken } = await createTokens({
                 id: userExisting.id,
-                email: userExisting.email
+                username: userExisting.username
             })
 
             res.cookie('refresh_token', refreshToken, {
                 maxAge: 604800000,
                 secure: process.env.NODE_ENV === 'production',
-                httpOnly: true
+                httpOnly: true,
             })
 
-            return { accessToken, refreshToken }
+            return { accessToken, user: userExisting }
         } catch (error) {
             throw new GraphQLError(error.message, {
                 extensions: {
@@ -108,7 +108,7 @@ module.exports = {
             const user = jwt.verify(req.cookies.refresh_token, process.env.REFRESH_SECRET_KEY)
 
 
-            const newAccessToken = jwt.sign({ id: user.id }, process.env.ACCESS_SECRET_KEY, {
+            const newAccessToken = jwt.sign({ username: user.username }, process.env.ACCESS_SECRET_KEY, {
                 expiresIn: '15m'
             })
 
@@ -117,6 +117,21 @@ module.exports = {
             throw new GraphQLError("Login expired", {
                 extensions: {
                     code: 'UNAUTHENTICATED'
+                }
+            })
+        }
+    },
+    logout(parent, args, context, info) {
+        try {
+            res.clearCookie('refresh_token', {
+                secure: process.env.NODE_ENV === 'production',
+                httpOnly: true,
+            })
+            
+        } catch (error) {
+            throw new GraphQLError('Error occurred while logout', {
+                extensions: {
+                    code: ApolloServerErrorCode.INTERNAL_SERVER_ERROR
                 }
             })
         }

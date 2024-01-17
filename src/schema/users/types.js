@@ -6,7 +6,7 @@ module.exports = `
 
     type AuthPayload {
         accessToken: String!,
-        refreshToken: String!
+        user: User!
     }
 
     type Query {
@@ -17,6 +17,7 @@ module.exports = `
         register(userInput: RegisterUserInput!): User!
         login(userInput: LoginUserInput!): AuthPayload!
         refresh: String!
+        logout: Boolean!
     }
 
     input RegisterUserInput{

@@ -92,7 +92,7 @@ const Register = () => {
     }
     return (
         <>
-            <Header />
+            <Header needAuthLinks/>
             <div className="register-page">
                 <div className="lottie-container">
                     <Lottie animationData={registerLottie} autoplay style={{ height: "16rem" }} />

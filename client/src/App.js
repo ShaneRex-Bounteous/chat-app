@@ -1,11 +1,11 @@
+import { ApolloProvider } from "@apollo/client";
+import { SnackbarProvider } from "notistack";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import { client } from './graphql/client';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { ApolloProvider } from "@apollo/client"
-import { client } from './graphql/client';
-import { SnackbarProvider } from "notistack"
-import Home from './pages/Home';
 
 function App() {
   return (

@@ -1,7 +1,10 @@
-import { Typography } from "@mui/material"
-import "../styles/Header.css"
+import { Button, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
-const Header = (needAuthLinks) => {
+import "../styles/Header.css"
+const Header = ({ needAuthLinks }) => {
+    const handleLogout = () => {
+        
+    }
     return (
         <div className="header">
             <div className="header-logo">
@@ -18,8 +21,14 @@ const Header = (needAuthLinks) => {
                         </>
                     ) : (
                         <>
-                            <li><Link to="/" className="nav-link"><Typography variant="h6">Home</Typography></Link></li>
-                            <li><Link to="/profile" className="nav-link"><Typography variant="h6">Profile</Typography></Link></li>
+                            <li><Link to="/" className="nav-link">Home</Link></li>
+                            <li><Link to="/profile" className="nav-link">Profile</Link></li>
+                            <li><Button className="nav-link" onClick={handleLogout} disableRipple sx={{
+                                "&.MuiButtonBase-root:hover": {
+                                    bgcolor: "transparent"
+                                },
+                                textTransform: "none"
+                            }}>Logout</Button></li>
                         </>
                     )}
                 </ul>

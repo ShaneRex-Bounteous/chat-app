@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import Header from '../components/Header';
 import { GET_ME } from "../graphql/queries/userQueries";
 
 const Home = () => {
@@ -12,9 +13,8 @@ const Home = () => {
         // }
     })
 
-    return (<>
-        {loading && <p>Loading...</p>}
-        </>
+    return (
+        <Header />
     )
 }
 

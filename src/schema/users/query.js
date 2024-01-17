@@ -3,7 +3,7 @@ module.exports = {
         try {
             const user = await models.User.findOne({
                 where: {
-                    id: currentUser.id
+                    username: currentUser.username
                 }
             })
 

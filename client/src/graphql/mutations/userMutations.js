@@ -13,7 +13,10 @@ export const LOGIN_USER = gql`
     mutation Login($userInput: LoginUserInput!) {
         login(userInput: $userInput) {
             accessToken
-            refreshToken
+            user {
+                email
+                username
+            }
         }
     }
 `;

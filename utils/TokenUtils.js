@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const verifyAccessToken = async (token) => {
     try {
-        const user = jwt.verify(token, process.env.ACCESS_SECRET_KEY)
-
+        const user = jwt.verify(token, process.env.ACCESS_SECRET_KEY)        
         return Promise.resolve(user)
     } catch (error) {
         throw new GraphQLError("Invalid access token", {
@@ -29,7 +28,7 @@ const verifyAccessToken = async (token) => {
 
 const createTokens = async (payload) => {
     try {
-        const accessToken = jwt.sign({id: payload.id}, process.env.ACCESS_SECRET_KEY, {
+        const accessToken = jwt.sign({username: payload.username}, process.env.ACCESS_SECRET_KEY, {
             expiresIn: '15m'
         })
 

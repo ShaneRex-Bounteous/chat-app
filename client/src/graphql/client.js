@@ -12,7 +12,6 @@ export const refreshAccessToken = async () => {
     const response = await client.mutate({
         mutation: REFRESH
     });
-    // extract your accessToken from your response data and return it
-    return response.data.refresh
 
+    return response.data.refresh //returns new access token
 }

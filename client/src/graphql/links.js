@@ -1,15 +1,15 @@
 import { createHttpLink, fromPromise } from '@apollo/client';
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-import { refreshAccessToken } from './client';
 import { enqueueSnackbar } from 'notistack';
+import { refreshAccessToken } from './client';
 
 export const httpLink = createHttpLink({
     uri: 'http://localhost:4000/',
     credentials: 'include'
 });
 
-export const authLink = setContext((request, { headers }) => {
+export const authLink = setContext(async (request, { headers }) => {
     if(request.operationName === 'Login' || request.operationName === 'Register' || request.operationName === 'Refresh') {
         return {
             headers: {
@@ -17,9 +17,20 @@ export const authLink = setContext((request, { headers }) => {
             }
         }
     }
+    // let accessToken = ''
+    // if(localStorage.getItem('access_token')) {
+    //     accessToken = JSON.parse(localStorage.getItem('access_token')).token
+    // }
+    const lSObj = localStorage.getItem('access_token')
     let accessToken = ''
-    if(localStorage.getItem('access_token')) {
-        accessToken = JSON.parse(localStorage.getItem('access_token')).token
+    if(lSObj) {
+        const jsonLocalStorage = JSON.parse(lSObj)
+        if(jsonLocalStorage.expiry > new Date()) {
+            console.log('access token expired');
+            accessToken = await refreshAccessToken()
+        } else {
+            accessToken = jsonLocalStorage.token
+        }
     }
     return {
         headers: {
@@ -30,6 +41,7 @@ export const authLink = setContext((request, { headers }) => {
 });
 
 export const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+    
     console.log('in errorlink');
     console.log(graphQLErrors);
     if (graphQLErrors) {

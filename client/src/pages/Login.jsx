@@ -3,13 +3,13 @@ import { Button, Stack, TextField, Typography } from "@mui/material"
 import Lottie from "lottie-react"
 import { enqueueSnackbar } from "notistack"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import loginLottie from "../assets/lotties/loginLottie.json"
+import Footer from "../components/Footer"
+import Header from "../components/Header"
 import { LOGIN_USER } from "../graphql/mutations/userMutations"
 import "../styles/Login.css"
 import { loginValidation } from "../utils/ValidateInputs"
-import Footer from "../components/Footer"
-import Header from "../components/Header"
-import { useNavigate } from "react-router-dom"
 
 const Login = () => {
     const [formValues, setFormValues] = useState({
@@ -59,7 +59,8 @@ const Login = () => {
                 variant: 'success'
             })
             navigate('/', {
-                replace: '/'
+                replace: '/',
+                
             })
         }
     })
@@ -92,7 +93,7 @@ const Login = () => {
     }
 
     return (<>
-        <Header />
+        <Header needAuthLinks/>
         <div className="login-page">
             <div className="lottie-container">
                 <Lottie animationData={loginLottie} autoplay style={{ height: "16rem" }} />
